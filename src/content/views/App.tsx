@@ -1,11 +1,12 @@
-import Logo from "@/assets/crx.svg";
+import Logo from "@/assets/icons/icon48.png";
 import { useEffect, useState } from "react";
 import "./App.css";
 import QRCode from "qrcode";
 import { OrdenDespacho } from "@/models/orden-despacho";
 
+const logoUrl = chrome.runtime.getURL(Logo);
 const room_id = self.crypto.randomUUID();
-const SIGOPER_COMPANION_URL = `https://sigoper-companion-service.localhost/${room_id}`;
+const SIGOPER_COMPANION_URL = `${import.meta.env.VITE_SIGOPER_COMPANION_URL}/${room_id}`;
 type WsConnectionStatus = "connected" | "disconnected" | "connecting";
 
 const WsConnectionStatusLabels = {
@@ -58,7 +59,7 @@ function App() {
   useEffect(() => {
     setWsConnectionStatus("connecting");
     const ws = new WebSocket(
-      `wss://sigoper-companion-service.localhost/ws/${room_id}`,
+      `${import.meta.env.VITE_SIGOPER_COMPANION_WS_URL}/${room_id}`,
     );
     ws.onopen = () => setWsConnectionStatus("connected");
     ws.onclose = () => setWsConnectionStatus("disconnected");
@@ -94,7 +95,7 @@ function App() {
         <section className="popup-content" aria-label="SIGOPER Companion">
           <header className="panel-header">
             <div className="brand-lockup">
-              <img src={Logo} alt="" className="panel-logo" />
+              <img src={logoUrl} alt="" className="panel-logo" />
               <div>
                 <p className="eyebrow">SIGOPER</p>
                 <h1>Companion</h1>
@@ -292,7 +293,7 @@ function App() {
         }
         aria-expanded={show}
       >
-        <img src={Logo} alt="SIGOPER Companion" className="button-icon" />
+        <img src={logoUrl} alt="SIGOPER Companion" className="button-icon" />
       </button>
     </div>
   );
