@@ -19,11 +19,7 @@
   margin: 20px;
   color: var(--ink);
   font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   line-height: 1.35;
   user-select: none;
@@ -407,17 +403,6 @@
     padding: 4px;
   }
 
-  @keyframes panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
   @media (max-width: 480px) {
     .popup-container {
       margin: 12px;
@@ -426,5 +411,16 @@
     .popup-content {
       width: calc(100vw - 70px);
     }
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
