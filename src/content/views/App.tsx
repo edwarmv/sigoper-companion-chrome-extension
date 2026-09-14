@@ -75,9 +75,6 @@ function App() {
         ) {
           setOrdenDespacho(parsedData.data);
           setReceivedAt(new Date());
-        } else {
-          setOrdenDespacho(null);
-          setReceivedAt(null);
         }
       } catch {
         setOrdenDespacho(null);
