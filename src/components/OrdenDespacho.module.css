@@ -1,0 +1,39 @@
+.primaryButton {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  color: white;
+  background: var(--primary);
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.primaryButton:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.primaryButton span {
+  font-size: 17px;
+  line-height: 0.7;
+}
+
+.errorMessage {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  color: #a61b0a;
+  background: #fff1ee;
+  border: 1px solid #f3b8ad;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.4;
+}

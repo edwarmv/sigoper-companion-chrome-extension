@@ -2,7 +2,9 @@ import Logo from "@/assets/icons/icon48.png";
 import { useEffect, useState } from "react";
 import "./App.css";
 import QRCode from "qrcode";
-import { OrdenDespacho } from "@/models/orden-despacho";
+import { OrdenDespacho as OrdenDespachoType } from "@/models/orden-despacho";
+import { formatDateTime } from "@/utils";
+import OrdenDespacho from "@/components/OrdenDespacho";
 
 const logoUrl = chrome.runtime.getURL(Logo);
 const room_id = self.crypto.randomUUID();
@@ -29,26 +31,10 @@ const qrCodeRefCallback = (canvas: HTMLCanvasElement | null) => {
   });
 };
 
-const formatDate = (value: Date | string | undefined) => {
-  if (!value) return "—";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? String(value)
-    : new Intl.DateTimeFormat("es-BO", { dateStyle: "medium" }).format(date);
-};
-
-const formatDateTime = (value: Date | undefined) => {
-  if (!value) return "—";
-  return new Intl.DateTimeFormat("es-BO", {
-    dateStyle: "medium",
-    timeStyle: "medium",
-  }).format(value);
-};
-
 function App() {
   const [show, setShow] = useState(false);
   const [showQr, setShowQr] = useState(false);
-  const [ordenDespacho, setOrdenDespacho] = useState<OrdenDespacho | null>(
+  const [ordenDespacho, setOrdenDespacho] = useState<OrdenDespachoType | null>(
     null,
   );
   const [receivedAt, setReceivedAt] = useState<Date | null>(null);
@@ -94,8 +80,8 @@ function App() {
             <div className="brand-lockup">
               <img src={logoUrl} alt="" className="panel-logo" />
               <div>
-                <p className="eyebrow">SIGOPER</p>
-                <h1>Companion</h1>
+                <p className="eyebrow no-margin">SIGOPER</p>
+                <h1 className="no-margin">Companion</h1>
               </div>
             </div>
             <button
@@ -136,7 +122,9 @@ function App() {
               <div className="qr-content">
                 <canvas ref={qrCodeRefCallback} />
                 <div>
-                  <p>Escanea este código QR con tu celular</p>
+                  <p className="no-margin">
+                    Escanea este código QR con tu celular
+                  </p>
                   <a
                     href={SIGOPER_COMPANION_URL}
                     target="_blank"
@@ -152,8 +140,8 @@ function App() {
           <div className="order-section">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">ÚLTIMA RECEPCIÓN</p>
-                <h2>Orden de despacho</h2>
+                <p className="eyebrow no-margin">ÚLTIMA RECEPCIÓN</p>
+                <h2 className="no-margin">Orden de despacho</h2>
               </div>
               {ordenDespacho && receivedAt && (
                 <span className="received-badge">
@@ -165,120 +153,7 @@ function App() {
               )}
             </div>
 
-            {ordenDespacho ? (
-              <div className="order-card">
-                <div className="order-number">
-                  <span>Orden</span>
-                  <strong>#{ordenDespacho.despacho.numero}</strong>
-                </div>
-                <div className="detail-grid">
-                  <div className="detail-item wide">
-                    <span>Producto</span>
-                    <strong>{ordenDespacho.despacho.producto || "—"}</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Cantidad</span>
-                    <strong>
-                      {ordenDespacho.despacho.cantidad}{" "}
-                      {ordenDespacho.despacho.unidad_cantidad}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Despacho programado</span>
-                    <strong>
-                      {formatDate(
-                        ordenDespacho.despacho.fecha_despacho_programado,
-                      )}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Despacho efectivo</span>
-                    <strong>
-                      {formatDate(
-                        ordenDespacho.despacho.fecha_despacho_efectivo,
-                      )}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Planta de despacho</span>
-                    <strong>
-                      {ordenDespacho.despacho.planta_despacho || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Conductor</span>
-                    <strong>{ordenDespacho.despacho.conductor || "—"}</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Licencia</span>
-                    <strong>{ordenDespacho.despacho.licencia || "—"}</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Placa</span>
-                    <strong>{ordenDespacho.despacho.placa || "—"}</strong>
-                  </div>
-                  <div className="detail-item wide">
-                    <span>Factura</span>
-                    <strong>
-                      {ordenDespacho.facturacion.numero_factura || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Estado de factura</span>
-                    <strong>
-                      {ordenDespacho.facturacion.estado_factura || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>CUF</span>
-                    <strong>{ordenDespacho.facturacion.cuf || "—"}</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Fecha de emisión</span>
-                    <strong>
-                      {formatDate(ordenDespacho.facturacion.fecha_emision)}
-                    </strong>
-                  </div>
-                  <div className="detail-item wide">
-                    <span>Razón social</span>
-                    <strong>
-                      {ordenDespacho.facturacion.nombre_razon_social || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Tipo de documento</span>
-                    <strong>
-                      {ordenDespacho.facturacion.tipo_documento || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Número de documento</span>
-                    <strong>
-                      {ordenDespacho.facturacion.numero_documento || "—"}
-                    </strong>
-                  </div>
-                  <div className="detail-item wide">
-                    <span>Código SIREHIDRO</span>
-                    <strong>
-                      {ordenDespacho.facturacion.codigo_sirehidro || "—"}
-                    </strong>
-                  </div>
-                </div>
-                <button className="primary-button">
-                  Rellenar campos <span>→</span>
-                </button>
-              </div>
-            ) : (
-              <div className="empty-state">
-                <span className="empty-icon">⌁</span>
-                <div>
-                  <strong>Esperando una orden</strong>
-                  <p>
-                    La orden de despacho aparecerá aquí cuando sea recibida.
-                  </p>
-                </div>
-              </div>
-            )}
+            <OrdenDespacho ordenDespacho={ordenDespacho} />
           </div>
         </section>
       )}
