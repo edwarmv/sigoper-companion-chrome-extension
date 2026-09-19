@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { OrdenDespacho as OrdenDespachoType } from "@/models/orden-despacho";
 import { formatDateTime } from "@/utils";
 import OrdenDespacho from "@/components/OrdenDespacho";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 
 const logoUrl = chrome.runtime.getURL(Logo);
 const room_id = self.crypto.randomUUID();
@@ -89,7 +90,7 @@ function App() {
               onClick={() => setShow(false)}
               aria-label="Cerrar panel"
             >
-              ×
+              <X />
             </button>
           </header>
 
@@ -116,7 +117,9 @@ function App() {
                 <strong>Conectar dispositivo</strong>
                 <small>Usa el celular para compartir una orden</small>
               </span>
-              <span className="chevron">{showQr ? "⌃" : "⌄"}</span>
+              <span className="chevron">
+                {showQr ? <ChevronUp /> : <ChevronDown />}
+              </span>
             </button>
             {showQr && (
               <div className="qr-content">

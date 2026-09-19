@@ -1,0 +1,40 @@
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.detailItem.wide {
+  grid-column: 1 / -1;
+}
+
+.detailItem > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.detailItem > strong {
+  display: block;
+  font-size: 12px;
+  overflow-wrap: break-word;
+}
+
+.copyableDetail {
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.copyableDetail:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+.copyableDetail.copied {
+  color: var(--secondary);
+  background: var(--secondary-soft);
+}

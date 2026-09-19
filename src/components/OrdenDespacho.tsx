@@ -3,6 +3,7 @@ import { OrdenDespacho as OrdenDespachoType } from "@/models/orden-despacho";
 import { formatDate } from "@/utils";
 import DetailItem from "./DetailItem";
 import styles from "./OrdenDespacho.module.css";
+import { ArrowRight } from "lucide-react";
 
 export default function OrdenDespacho({
   ordenDespacho,
@@ -133,7 +134,7 @@ export default function OrdenDespacho({
             className={styles.primaryButton}
             onClick={fillOutDespachoCisterna}
           >
-            Rellenar campos <span>→</span>
+            Rellenar campos <ArrowRight />
           </button>
           {error ? (
             <p className={styles.errorMessage} role="alert">
